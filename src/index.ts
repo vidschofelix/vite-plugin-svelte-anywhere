@@ -61,7 +61,7 @@ export default function svelteEverywhere(options: SvelteEverywhereOptions = {}):
 
     // Load templates from the user or fallback to defaults
     async function loadTemplates() {
-        const defaultTemplatesDir = path.resolve(__dirname, './templates');
+        const defaultTemplatesDir = path.resolve(import.meta.url, './templates');
         const userTemplatesDir = templatesDir ? path.resolve(process.cwd(), templatesDir) : null;
 
         const eagerPath = userTemplatesDir
