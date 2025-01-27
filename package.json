@@ -11,7 +11,7 @@
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts && cpx src/templates/*.svelte dist/templates",
+    "build": "tsup src/index.ts --format esm,cjs --dts && cpx src/templates/**.svelte dist/templates",
     "semantic-release": "semantic-release"
   },
   "keywords": [
