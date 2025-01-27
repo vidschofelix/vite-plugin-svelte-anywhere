@@ -11,7 +11,7 @@
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts && cpx src/templates/* dist/templates",
+    "build": "tsup src/index.ts --format esm,cjs --dts && cpx src/templates/*.svelte dist/templates",
     "semantic-release": "semantic-release"
   },
   "keywords": [
@@ -40,8 +40,7 @@
     "svelte": "^5.0.0",
     "tsup": "^6.0.0",
     "typescript": "^5.0.0",
-    "vite": "^6.0.0",
-    "vitest": "^0.34.0"
+    "vite": "^6.0.0"
   },
   "peerDependencies": {
     "svelte": "^5.0.0",
