@@ -29,8 +29,8 @@ import svelteEverywhere from 'vite-plugin-svelte-everywhere';
 export default {
     plugins: [
         svelteEverywhere({
-            componentsDir: 'src/components',      // Directory containing your Svelte components
-            outputDir: 'src/generated/custom-elements',   // Directory where custom elements are generated
+            componentsDir: 'src/lib',      // Directory containing your Svelte components
+            outputDir: 'src/generated/custom-element',   // Directory where custom components are generated
             defaultMode: 'lazy',                // Default loading behavior ('eager' or 'lazy')
             defaultShadowMode: 'none',           // Default shadow DOM mode ('open' or 'none')
         }),
@@ -54,7 +54,7 @@ export default {
 
 ### 2. Load custom elements into `main.ts`
 ```ts
-import.meta.glob('./generated/custom-component/*', {eager: true})
+import.meta.glob('./generated/custom-element/*', {eager: true})
 ``` 
 
 ### 3. Annotate Your Svelte Components
@@ -88,15 +88,15 @@ Read more about how to load main.ts in [production](#production)
 ---
 ## Plugin Options
 
-| Option	            | Type       | 	Default                          | Description                                                               |
-|--------------------|------------|-----------------------------------|---------------------------------------------------------------------------|
-| componentsDir      | 	`string`	 | src	                              | Directory where your Svelte components are located.                       |
-| outputDir	         | `string`	  | `src/generated/custom-component`	 | Directory where the custom elements are generated.                        |
-| defaultMode        | 	`string`  | 	`'lazy'`                         | 	The default template to use: `'lazy'` or `'eager'`                       |
-| defaultShadowMode	 | `string`   | `'none'`	                         | ShadowDom Mode: `'open'` or 	`'none'`                                     |
-| templatesDir       | `string`     | 	undefined                        | 	Path to a directory with custom templates for eager and lazy components. |
-| cleanOutputDir     | `boolean`  | `true`                            | Whether to clean the `outputDir` on each build.                           |
-| log                | `boolean`  | `false`                           | Whether to enable logging, for debugging purposes                         | 
+| Option	            | Type       | 	Default                        | Description                                                               |
+|--------------------|------------|---------------------------------|---------------------------------------------------------------------------|
+| componentsDir      | 	`string`	 | `src`	                            | Directory where your Svelte components are located.                       |
+| outputDir	         | `string`	  | `src/generated/custom-element`	 | Directory where the custom elements are generated.                        |
+| defaultMode        | 	`string`  | 	`'lazy'`                       | 	The default template to use: `'lazy'` or `'eager'`                       |
+| defaultShadowMode	 | `string`   | `'none'`	                       | ShadowDom Mode: `'open'` or 	`'none'`                                     |
+| templatesDir       | `string`     | 	undefined                      | 	Path to a directory with custom templates for eager and lazy components. |
+| cleanOutputDir     | `boolean`  | `true`                          | Whether to clean the `outputDir` on each build.                           |
+| log                | `boolean`  | `false`                         | Whether to enable logging, for debugging purposes                         | 
 
 ## Features
 - **Legacy Project Support**: Embed Svelte components into any HTML or JS environment.

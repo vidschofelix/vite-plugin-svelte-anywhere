@@ -16,7 +16,7 @@ interface SvelteEverywhereOptions {
 export default function svelteEverywhere(options: SvelteEverywhereOptions = {}): Plugin {
     const {
         componentsDir = 'src',
-        outputDir = 'src/generated/custom-component',
+        outputDir = 'src/generated/custom-element',
         defaultMode = 'lazy',
         defaultShadowMode = 'none', // Default to 'none'
         templatesDir,
