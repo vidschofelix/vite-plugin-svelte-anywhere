@@ -1,6 +1,7 @@
 import { promises as fs } from 'fs';
 import * as path from 'node:path';
 import { Plugin, normalizePath } from 'vite';
+import {fileURLToPath} from "node:url";
 
 interface SvelteEverywhereOptions {
     componentsDir?: string;
@@ -61,7 +62,7 @@ export default function svelteEverywhere(options: SvelteEverywhereOptions = {}):
 
     // Load templates from the user or fallback to defaults
     async function loadTemplates() {
-        const defaultTemplatesDir = path.resolve(import.meta.url, './templates');
+        const defaultTemplatesDir = path.resolve(import.meta.dirname , './templates');
         const userTemplatesDir = templatesDir ? path.resolve(process.cwd(), templatesDir) : null;
 
         const eagerPath = userTemplatesDir
