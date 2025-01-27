@@ -3,5 +3,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules","dist"]
 }
