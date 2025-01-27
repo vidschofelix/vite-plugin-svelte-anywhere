@@ -6,7 +6,7 @@ interface SvelteEverywhereOptions {
     componentsDir?: string;
     outputDir?: string;
     defaultMode?: 'eager' | 'lazy';
-    defaultShadowMode?: 'open' | 'closed' | 'none'; // New option for default shadow mode
+    defaultShadowMode?: 'open' | 'none'; // New option for default shadow mode
     templatesDir?: string;
     cleanOutputDir?: boolean;
     log?: boolean;
@@ -41,10 +41,10 @@ export default function svelteEverywhere(options: SvelteEverywhereOptions = {}):
 
     // Validate shadow mode
     function validateShadowMode(shadow: string): void {
-        const validShadowModes = ['open', 'closed', 'none'];
+        const validShadowModes = ['open', 'none'];
         if (!validShadowModes.includes(shadow)) {
             throw new Error(
-                `Invalid shadow mode "${shadow}". Allowed values are: "open", "closed", "none".`
+                `Invalid shadow mode "${shadow}". Allowed values are: "open", "none".`
             );
         }
     }
