@@ -50,7 +50,7 @@ export default {
 };
 
 ```
-**Notice**:  `svelteEverywhere()` must be positioned **ABOVE** your `svelte()` plugin
+**Note:**:  `svelteEverywhere()` plugin must be positioned **ABOVE** your `svelte()` plugin
 
 ### 2. Load custom elements into `main.ts`
 ```ts
@@ -59,10 +59,10 @@ import.meta.glob('./generated/custom-element/*', {eager: true})
 
 ### 3. Annotate Your Svelte Components
    Use the @custom-element annotation to define custom tags in your Svelte components:
-```sveltehtml
+```svelte
 <!-- src/components/MyComponent.svelte -->
-<!-- Creates a custom element <my-component> -->
 <!-- @custom-element my-component -->
+<!-- Creates a custom element <my-component> -->
 <script>
    let { message = 'Hello!' } = $props();
 </script>
@@ -121,9 +121,9 @@ to your main.ts
 ## Diving deeper
 ### How this works
 This plugin uses custom elements as entrypoint from the HTML DOM into a Svelte Environment. This is possible because 
-Svelte itself proved the ability to write Svelte code in custom components. Those components usually come with some 
+Svelte itself provides the ability to write Svelte code in custom elements. Those custom elements usually come with some 
 limitations. But... They are also able to load native Svelte Components. And thats all this plugin does. Creating 
-custom components that load svelte components. By default the custom component load the svelte component while being 
+custom elements that load svelte components. By default the custom elements load the svelte component while being 
 mounted, using an $effect rune. Props get passed down into the svelte component. 
 
 ### Embedding into HTML
@@ -154,7 +154,7 @@ foreach ($svelteCssFiles as $file) {
 ```
 
 #### Combined Example
-You can test weather your Vite is running to switch between the development and build bundle
+You can check whether your Vite is running by switching between the development and build bundle
  ``` php
 $useVite = false;
 if ($environment === 'development') {
