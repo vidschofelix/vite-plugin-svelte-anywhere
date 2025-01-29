@@ -1,9 +1,8 @@
 import { promises as fs } from 'fs';
 import * as path from 'node:path';
 import { Plugin, normalizePath } from 'vite';
-import {fileURLToPath} from "node:url";
 
-interface SvelteEverywhereOptions {
+interface SvelteAnywhereOptions {
     componentsDir?: string;
     outputDir?: string;
     defaultMode?: 'eager' | 'lazy';
@@ -13,7 +12,7 @@ interface SvelteEverywhereOptions {
     log?: boolean;
 }
 
-export default function svelteEverywhere(options: SvelteEverywhereOptions = {}): Plugin {
+export default function svelteAnywhere(options: SvelteAnywhereOptions = {}): Plugin {
     const {
         componentsDir = 'src',
         outputDir = 'src/generated/custom-element',
@@ -37,8 +36,8 @@ export default function svelteEverywhere(options: SvelteEverywhereOptions = {}):
     let lazyTemplate: string;
     const outputPath = path.resolve(outputDir);
 
-    const logInfo = (message: string) => log && console.log(`[svelte-everywhere] ${message}`);
-    const logError = (message: string) => log && console.error(`[svelte-everywhere] ERROR: ${message}`);
+    const logInfo = (message: string) => log && console.log(`[svelte-anywhere] ${message}`);
+    const logError = (message: string) => log && console.error(`[svelte-anywhere] ERROR: ${message}`);
 
     // Validate shadow mode
     function validateShadowMode(shadow: string): void {
@@ -183,7 +182,7 @@ export default function svelteEverywhere(options: SvelteEverywhereOptions = {}):
     }
 
     return {
-        name: 'vite-plugin-svelte-everywhere',
+        name: 'vite-plugin-svelte-anywhere',
 
         async buildStart() {
             logInfo('Initializing plugin...');

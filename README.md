@@ -1,4 +1,4 @@
-# Vite Plugin Svelte Everywhere
+# Vite Plugin Svelte Anywhere
 Easily use Svelte components outside a Svelte context! 
 This Vite plugin empowers developers to define reusable custom elements directly within their Svelte components. 
 Once set up, simply annotate your component with a custom tag, and it’s ready to be embedded anywhere HTML is accepted—no additional steps required.
@@ -18,17 +18,17 @@ Once set up, simply annotate your component with a custom tag, and it’s ready 
 ## Installation
 Install the plugin as a development dependency:
 ```bash
-npm install vite-plugin-svelte-everywhere --save-dev
+npm install vite-plugin-svelte-anywhere --save-dev
 ```
 ---
 ## Usage
 ### 1. Configure the plugin in your `vite.config.js`
 ```js
-import svelteEverywhere from 'vite-plugin-svelte-everywhere';
+import svelteAnywhere from 'vite-plugin-svelte-anywhere';
 
 export default {
     plugins: [
-        svelteEverywhere({
+        svelteAnywhere({
             componentsDir: 'src/lib',      // Directory containing your Svelte components
             outputDir: 'src/generated/custom-element',   // Directory where custom components are generated
             defaultMode: 'lazy',                // Default loading behavior ('eager' or 'lazy')
@@ -50,7 +50,7 @@ export default {
 };
 
 ```
-**Notice**:  `svelteEverywhere()` must be positioned **ABOVE** your `svelte()` plugin
+**Notice**:  `svelteAnywhere()` must be positioned **ABOVE** your `svelte()` plugin
 
 ### 2. Load custom elements into `main.ts`
 ```ts
