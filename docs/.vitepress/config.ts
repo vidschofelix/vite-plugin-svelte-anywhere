@@ -1,12 +1,15 @@
 import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
+
+const basePath = '/vite-plugin-svelte-anywhere/'
+
 export default defineConfig({
   title: "Svelte Anywhere Docs",
   description: "A VitePress Site",
   head: [
-      ['link', { rel: 'icon', href: '/favicon.ico' }],
-      ['script', { src: '/demo/main-DWuT2Htv.js', type: 'module' }]
+      ['link', { rel: 'icon', href: `${basePath}favicon.ico` }],
+      ['script', { src: `${basePath}demo/main-DWuT2Htv.js`, type: 'module' }]
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -63,5 +66,5 @@ export default defineConfig({
       },
     },
   },
-  base: '/vite-plugin-svelte-anywhere/'
+  base: basePath
 })
