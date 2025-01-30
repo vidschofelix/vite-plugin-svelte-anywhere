@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-svelte-anywhere",
   "version": "0.0.0-development",
-  "description": "A Vite plugin for Svelte that generates custom elements from annotated `.svelte` files with support for dynamic updates, configurable shadow DOM modes, and efficient file generation.",
+  "description": "Take Svelte anywhere, no matter the stack.",
   "main": "dist/index.js",
   "type": "module",
   "exports": {
