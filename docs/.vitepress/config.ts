@@ -63,5 +63,5 @@ export default defineConfig({
       },
     },
   },
-  base: '/repo/'
+  base: '/vite-plugin-svelte-anywhere/'
 })
