@@ -1,184 +1,183 @@
-import { promises as fs } from 'fs';
-import * as path from 'node:path';
+import { promises as fs } from 'node:fs';
+import * as path from 'path';
 import { Plugin, normalizePath } from 'vite';
+import { fileURLToPath } from 'node:url';
 
 interface SvelteAnywhereOptions {
     componentsDir?: string;
     outputDir?: string;
-    defaultMode?: 'eager' | 'lazy';
-    defaultShadowMode?: 'open' | 'none'; // New option for default shadow mode
+    defaultTemplate?: string;
+    defaultShadowMode?: 'open' | 'none';
     templatesDir?: string;
     cleanOutputDir?: boolean;
     log?: boolean;
+}
+
+interface ComponentData {
+    tag: string;
+    template: string;
+    shadow: string;
+    generatedPath: string;
 }
 
 export default function svelteAnywhere(options: SvelteAnywhereOptions = {}): Plugin {
     const {
         componentsDir = 'src',
         outputDir = 'src/generated/custom-element',
-        defaultMode = 'lazy',
-        defaultShadowMode = 'none', // Default to 'none'
+        defaultTemplate = 'lazy',
+        defaultShadowMode = 'none',
         templatesDir,
         cleanOutputDir = true,
         log = false,
     } = options;
 
-    // Validate the default shadow mode
-    validateShadowMode(defaultShadowMode);
+    const customTemplatesDir = templatesDir ? path.resolve(process.cwd(), templatesDir) : null;
+    const defaultTemplatesDir = path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        'templates'
+    );
 
-    const collectedComponents = new Map<
-        string,
-        { tag: string; mode: 'eager' | 'lazy'; shadow: string }
-    >(); // Maps file path -> component details
-    const generatedFiles = new Map<string, string>(); // Maps file path -> generated file path
-    const registeredTags = new Map<string, string>(); // Maps tag -> file path
-    let eagerTemplate: string;
-    let lazyTemplate: string;
+    const templateCache = new Map<string, string>();
+    const components = new Map<string, ComponentData>();
+    const registeredTags = new Map<string, string>();
     const outputPath = path.resolve(outputDir);
 
     const logInfo = (message: string) => log && console.log(`[svelte-anywhere] ${message}`);
     const logError = (message: string) => log && console.error(`[svelte-anywhere] ERROR: ${message}`);
 
-    // Validate shadow mode
     function validateShadowMode(shadow: string): void {
-        const validShadowModes = ['open', 'none'];
-        if (!validShadowModes.includes(shadow)) {
-            throw new Error(
-                `Invalid shadow mode "${shadow}". Allowed values are: "open", "none".`
-            );
+        if (!['open', 'none'].includes(shadow)) {
+            throw new Error(`Invalid shadow mode "${shadow}". Allowed values: "open", "none".`);
         }
     }
 
-    // Validate custom element tag name
     function validateTagName(tag: string): void {
-        const isValid = /^[a-z][a-z0-9\-]*\-[a-z0-9\-]+$/.test(tag);
-        if (!isValid) {
-            throw new Error(
-                `Invalid custom element tag name "${tag}". Tag names must be lowercase and contain at least one hyphen.`
-            );
+        if (!/^[a-z][a-z0-9\-]*\-[a-z0-9\-]+$/.test(tag)) {
+            throw new Error(`Invalid tag "${tag}". Must be lowercase with hyphen.`);
         }
     }
 
-    // Load templates from the user or fallback to defaults
-    async function loadTemplates() {
-        const defaultTemplatesDir = path.resolve(import.meta.dirname , './templates');
-        const userTemplatesDir = templatesDir ? path.resolve(process.cwd(), templatesDir) : null;
+    async function loadTemplate(name: string): Promise<string> {
+        if (templateCache.has(name)) return templateCache.get(name)!;
 
-        const eagerPath = userTemplatesDir
-            ? path.resolve(userTemplatesDir, 'eager-template.svelte')
-            : path.resolve(defaultTemplatesDir, 'eager-template.svelte');
+        const attemptedPaths: string[] = [];
+        let content: string | undefined;
 
-        const lazyPath = userTemplatesDir
-            ? path.resolve(userTemplatesDir, 'lazy-template.svelte')
-            : path.resolve(defaultTemplatesDir, 'lazy-template.svelte');
-
-        eagerTemplate = await loadFileOrFallback(eagerPath, path.resolve(defaultTemplatesDir, 'eager-template.svelte'));
-        lazyTemplate = await loadFileOrFallback(lazyPath, path.resolve(defaultTemplatesDir, 'lazy-template.svelte'));
-    }
-
-    async function loadFileOrFallback(filePath: string, fallbackPath: string): Promise<string> {
-        try {
-            return await fs.readFile(filePath, 'utf-8');
-        } catch {
-            logInfo(`Using fallback template for: ${filePath}`);
-            return await fs.readFile(fallbackPath, 'utf-8');
-        }
-    }
-
-    // Recursively collect all .svelte files in a directory
-    async function collectSvelteFiles(dir: string): Promise<string[]> {
-        const entries = await fs.readdir(dir, { withFileTypes: true });
-        const files = await Promise.all(
-            entries.map((entry) => {
-                const fullPath = path.resolve(dir, entry.name);
-                return entry.isDirectory() ? collectSvelteFiles(fullPath) : fullPath;
-            })
-        );
-        return files.flat().filter((file) => file.endsWith('.svelte'));
-    }
-
-    // Parse a Svelte file for @custom-element annotations
-    async function parseSvelteFile(file: string) {
-        const content = await fs.readFile(file, 'utf-8');
-        const match = content.match(/@custom-element\s+(\S+)(?:\s+shadow=(\S+))?(?:\s+(eager|lazy))?/);
-        const normalizedPath = normalizePath(file);
-
-        const previousComponent = collectedComponents.get(normalizedPath);
-
-        // If a previous tag existed, remove it from registered tags
-        if (previousComponent) {
-            const { tag: oldTag } = previousComponent;
-            if (registeredTags.has(oldTag) && registeredTags.get(oldTag) === normalizedPath) {
-                registeredTags.delete(oldTag);
-                await removeGeneratedFile(normalizedPath); // Remove the old generated file
+        // Try custom templates first
+        if (customTemplatesDir) {
+            const customPath = path.join(customTemplatesDir, `${name}.template`);
+            attemptedPaths.push(customPath);
+            try {
+                content = await fs.readFile(customPath, 'utf-8');
+            } catch {
+                logInfo(`Template "${name}" not found in custom directory, using default...`);
             }
         }
+
+        // Fallback to default templates
+        if (!content) {
+            const defaultPath = path.join(defaultTemplatesDir, `${name}.template`);
+            attemptedPaths.push(defaultPath);
+            try {
+                content = await fs.readFile(defaultPath, 'utf-8');
+            } catch {
+                const errorMessage = `Template "${name}" not found in:\n${attemptedPaths.join('\n')}`;
+                logError(errorMessage);
+                throw new Error(errorMessage);
+            }
+        }
+
+        templateCache.set(name, content);
+        return content;
+    }
+
+    async function processComponent(filePath: string): Promise<void> {
+        if (!filePath.endsWith('.svelte')) return;
+
+        const content = await fs.readFile(filePath, 'utf-8');
+        const match = content.match(/@custom-element\s+(\S+)(?:\s+shadow=(\S+))?(?:\s+template=(\S+))?/);
+        const normalizedPath = normalizePath(filePath);
+
+        const existing = components.get(normalizedPath);
 
         if (match) {
-            const [_, tag, shadow = defaultShadowMode, mode = defaultMode] = match;
-
-            // Validate the tag name
+            const [_, tag, shadow = defaultShadowMode, template = defaultTemplate] = match;
             validateTagName(tag);
-
-            // Validate shadow mode
             validateShadowMode(shadow);
 
-            // Check for tag collisions
+            // Check for tag conflicts first
             if (registeredTags.has(tag) && registeredTags.get(tag) !== normalizedPath) {
-                logError(`Tag "${tag}" is already defined in ${registeredTags.get(tag)}.`);
-                throw new Error(`Custom element tag collision: "${tag}"`);
+                logError(`Tag "${tag}" already registered by ${registeredTags.get(tag)}`);
+                throw new Error(`Duplicate custom-element tag: ${tag}`);
             }
 
-            // Add the new tag to the registry and collected components
-            registeredTags.set(tag, normalizedPath);
-            collectedComponents.set(normalizedPath, {
+            // Check if configuration changed
+            const templateChanged = existing?.template !== template;
+            const shadowChanged = existing?.shadow !== shadow;
+            const tagChanged = existing?.tag !== tag;
+
+            if (existing) {
+                if (tagChanged) {
+                    await removeGeneratedFile(existing.generatedPath);
+                    registeredTags.delete(existing.tag);
+                }
+            }
+
+            const componentData: ComponentData = {
                 tag,
-                mode: mode.trim() as 'eager' | 'lazy',
+                template: template.trim(),
                 shadow: shadow.trim(),
-            });
-            logInfo(`Parsed component: ${tag} from ${file}`);
-        } else {
-            // If the file no longer defines a custom element, remove it
-            collectedComponents.delete(normalizedPath);
+                generatedPath: path.resolve(outputPath, `${tag}.svelte`)
+            };
+
+            components.set(normalizedPath, componentData);
+            registeredTags.set(tag, normalizedPath);
+
+            if (tagChanged || templateChanged || shadowChanged) {
+                await generateComponent(normalizedPath);
+            } else {
+                logInfo(`Skipping unchanged component: ${tag}`);
+            }
+        } else if (existing) {
+            await removeGeneratedFile(existing.generatedPath);
+            components.delete(normalizedPath);
+            registeredTags.delete(existing.tag);
         }
     }
 
-    // Generate a file for the custom element
-    async function generateFile(file: string) {
-        const component = collectedComponents.get(normalizePath(file));
+    async function generateComponent(filePath: string): Promise<void> {
+        const component = components.get(normalizePath(filePath));
         if (!component) return;
 
-        const { tag, mode, shadow } = component;
-        const template = mode === 'eager' ? eagerTemplate : lazyTemplate;
+        const { tag, template, shadow, generatedPath } = component;
+        const templateContent = await loadTemplate(template);
+        const relativePath = normalizePath(path.relative(outputPath, filePath));
 
-        const relativePath = normalizePath(path.relative(outputPath, file));
-
-        const content = template
+        const content = templateContent
             .replace(/{{CUSTOM_ELEMENT_TAG}}/g, tag)
             .replace(/{{SVELTE_PATH}}/g, relativePath)
             .replace(/{{SHADOW_MODE}}/g, shadow);
 
-        const outputFile = path.resolve(outputPath, `${tag}.svelte`);
         await fs.mkdir(outputPath, { recursive: true });
-        await fs.writeFile(outputFile, content, 'utf-8');
-        generatedFiles.set(normalizePath(file), outputFile);
-        logInfo(`Generated: ${outputFile}`);
+        await fs.writeFile(generatedPath, content, 'utf-8');
+        logInfo(`Generated: ${generatedPath}`);
     }
 
-    // Remove a generated file when its source is deleted or modified
-    async function removeGeneratedFile(file: string) {
-        const normalizedPath = normalizePath(file);
-        const outputFile = generatedFiles.get(normalizedPath);
-        if (outputFile) {
-            const component = collectedComponents.get(normalizedPath);
-            if (component) {
-                registeredTags.delete(component.tag);
-            }
-            await fs.rm(outputFile, { force: true });
-            generatedFiles.delete(normalizedPath);
-            collectedComponents.delete(normalizedPath);
-            logInfo(`Removed: ${outputFile}`);
+    async function removeGeneratedFile(generatedPath: string): Promise<void> {
+        try {
+            await fs.rm(generatedPath, { force: true });
+            logInfo(`Removed: ${generatedPath}`);
+        } catch (error) {
+            logError(`Failed to remove ${generatedPath}: ${error}`);
         }
+    }
+
+    async function collectComponents(dir: string): Promise<void> {
+        const entries = await fs.readdir(normalizePath(dir), { withFileTypes: true });
+        await Promise.all(entries.map(async (entry) => {
+            const fullPath = path.join(dir, entry.name);
+            entry.isDirectory() ? await collectComponents(fullPath) : await processComponent(fullPath);
+        }));
     }
 
     return {
@@ -186,35 +185,35 @@ export default function svelteAnywhere(options: SvelteAnywhereOptions = {}): Plu
 
         async buildStart() {
             logInfo('Initializing plugin...');
-            await loadTemplates();
+            await loadTemplate(defaultTemplate);
 
             if (cleanOutputDir) {
                 await fs.rm(outputPath, { recursive: true, force: true });
-                logInfo('Cleaned output directory.');
+                logInfo('Cleaned output directory');
             }
 
-            const files = await collectSvelteFiles(path.resolve(process.cwd(), componentsDir));
-            for (const file of files) {
-                await parseSvelteFile(file);
-                await generateFile(file);
-            }
+            await collectComponents(path.resolve(componentsDir));
         },
 
         configureServer(server) {
-            server.watcher.on('change', async (file) => {
-                if (file.endsWith('.svelte')) {
-                    logInfo(`Detected change in: ${file}`);
-                    await parseSvelteFile(file);
-                    await generateFile(file);
-                }
-            });
-
-            server.watcher.on('unlink', async (file) => {
-                if (file.endsWith('.svelte')) {
-                    logInfo(`Detected deletion of: ${file}`);
-                    await removeGeneratedFile(file);
-                }
-            });
-        },
+            server.watcher
+                .on('change', async (file) => {
+                    if (file.endsWith('.svelte')) {
+                        logInfo(`Detected change: ${file}`);
+                        await processComponent(file);
+                    }
+                })
+                .on('unlink', async (file) => {
+                    if (file.endsWith('.svelte')) {
+                        logInfo(`Detected removal: ${file}`);
+                        const component = components.get(normalizePath(file));
+                        if (component) {
+                            await removeGeneratedFile(component.generatedPath);
+                            components.delete(normalizePath(file));
+                            registeredTags.delete(component.tag);
+                        }
+                    }
+                });
+        }
     };
 }

@@ -31,7 +31,7 @@ export default {
         svelteAnywhere({
             componentsDir: 'src/lib',      // Directory containing your Svelte components
             outputDir: 'src/generated/custom-element',   // Directory where custom components are generated
-            defaultMode: 'lazy',                // Default loading behavior ('eager' or 'lazy')
+            defaultTemplate: 'lazy',                // Default loading behavior ('eager' or 'lazy')
             defaultShadowMode: 'none',           // Default shadow DOM mode ('open' or 'none')
         }),
         svelte({
@@ -92,7 +92,7 @@ Read more about how to load main.ts in [production](#production)
 |--------------------|------------|---------------------------------|---------------------------------------------------------------------------|
 | componentsDir      | 	`string`	 | `src`	                            | Directory where your Svelte components are located.                       |
 | outputDir	         | `string`	  | `src/generated/custom-element`	 | Directory where the custom elements are generated.                        |
-| defaultMode        | 	`string`  | 	`'lazy'`                       | 	The default template to use: `'lazy'` or `'eager'`                       |
+| defaultTemplate    | 	`string`  | 	`'lazy'`                       | 	The default template to use: `'lazy'` or `'eager'`                       |
 | defaultShadowMode	 | `string`   | `'none'`	                       | ShadowDom Mode: `'open'` or 	`'none'`                                     |
 | templatesDir       | `string`     | 	undefined                      | 	Path to a directory with custom templates for eager and lazy components. |
 | cleanOutputDir     | `boolean`  | `true`                          | Whether to clean the `outputDir` on each build.                           |
