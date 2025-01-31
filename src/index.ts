@@ -32,10 +32,7 @@ export default function svelteAnywhere(options: SvelteAnywhereOptions = {}): Plu
     } = options;
 
     const customTemplatesDir = templatesDir ? path.resolve(process.cwd(), templatesDir) : null;
-    const defaultTemplatesDir = path.join(
-        path.dirname(fileURLToPath(import.meta.url)),
-        'templates'
-    );
+    const defaultTemplatesDir = path.resolve(import.meta.dirname , './templates');
 
     const templateCache = new Map<string, string>();
     const components = new Map<string, ComponentData>();
