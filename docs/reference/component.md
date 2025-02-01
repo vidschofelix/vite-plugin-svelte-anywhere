@@ -1,7 +1,7 @@
 
 # Component Config
 
-## Full Example
+## Full Reference
 ```js
 <!-- @custom-element my-component template="foo" shadow="none" -->
 ```
@@ -16,9 +16,9 @@
 ## Template
 - optional
 - `lazy` or `eager`
-- default is set by [Plugin Config](plugin.md)
+- default is set by [defaultTemplate](plugin.md#defaulttemplate)
 
-## Shadow 
+## Shadow
 - optional
 - `open` or `none`
-- default is set by [Plugin Config](plugin.md)
+- default is set by [Plugin Config](plugin.md#defaultshadowmode)

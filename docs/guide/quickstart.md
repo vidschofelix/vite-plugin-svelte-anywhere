@@ -84,11 +84,3 @@ The annotation creates a custom element `<my-component>` that you can use anywhe
 :::
 
 Afterwards run `npm run dev` and visit your index.html.
-
-### 5. See it in action
-::: details 
-<counter-entry/>
-Open your browsers inspector (F12) and have a look at the line above
-
-...and yes, thats a Svelte component in a Vue Page :v:
-:::

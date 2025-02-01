@@ -1,16 +1,49 @@
-import { defineConfig } from 'vitepress'
+import {defineConfig} from 'vitepress'
+import {readFile} from "node:fs/promises";
 
 // https://vitepress.dev/reference/site-config
 
+
 const basePath = '/vite-plugin-svelte-anywhere/'
+// @ts-ignore
+const manifest = JSON.parse(await readFile("docs/public/demo/.vite/manifest.json", "utf8"));
 
 export default defineConfig({
   title: "Svelte Anywhere Docs",
   description: "A VitePress Site",
   head: [
-      ['link', { rel: 'icon', href: `${basePath}favicon.ico` }],
-      ['script', { src: `${basePath}demo/main-DWuT2Htv.js`, type: 'module' }]
+    ['link', { rel: 'icon', href: `${basePath}favicon.ico` }],
   ],
+  transformPageData(pageData) {
+    pageData.frontmatter.head ??= []
+    if (process.env.NODE_ENV === 'development') {
+      pageData.frontmatter.head.push(...[[
+          'script',
+         { src: 'http://localhost:5173/@vite/client', type: 'module' }
+        ],
+        [
+          'script',
+          { src: 'http://localhost:5173/src/main.ts', type: 'module' }
+        ]
+      ])
+    } else {
+      pageData.frontmatter.head.push([
+        'script',
+        { src: `${basePath}demo/${manifest['src/main.ts']['file']}`, type: 'module' }
+      ])
+      manifest['src/main.ts']['css'].map((entry) => {
+        pageData.frontmatter.head.push([
+          'link ',
+          { href: `${basePath}demo/${entry}`, rel: 'stylesheet' }
+        ])
+      })
+    }
+  },
+  vite:{
+    server: {
+      hmr: false
+    },
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -26,17 +59,13 @@ export default defineConfig({
       },
       {
         text: 'Demos',
-        items: [
-          { text: 'Simple Examples', link: '/demo/simple' },
-          { text: 'Shared State Examples', link: '/demo/shared-state' },
-          { text: 'Tailwind Examples', link: '/demo/tailwind' }
-        ]
+        link: '/demo'
       },
       {
         text: 'Guides',
         items: [
           { text: 'Quickstart', link: '/guide/quickstart' },
-          { text: 'Advanced Usage', link: '/guide/advanced-usage' },
+          { text: 'Backend Integration', link: '/guide/backend-integration'},
           { text: 'Using Custom Templates', link: '/guide/custom-templates' }
         ]
       },

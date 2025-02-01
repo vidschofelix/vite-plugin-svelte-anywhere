@@ -41,7 +41,9 @@ jobs:
         uses: actions/configure-pages@v4
       - name: Install dependencies
         run: npm ci
-      - name: Build with VitePress
+      - name: Build Demo Elements
+        run: npm run demo:build # or pnpm docs:build / yarn docs:build / bun run docs:build
+      - name: Build VitePress
         run: npm run docs:build # or pnpm docs:build / yarn docs:build / bun run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
