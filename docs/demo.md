@@ -1,6 +1,7 @@
 # Demos
 :::info
-All components of this page are svelte components, wrappend in custom elements. The Page itself is a vue project.
+All components of this page are svelte components, wrappend in custom elements (that's what the plugin does). 
+The Page itself is a vue project.
 :::
 
 ## Counter
