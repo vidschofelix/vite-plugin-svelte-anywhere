@@ -24,7 +24,7 @@ export default defineConfig({
 ```
 :::
 
-## Add you template
+## Add your template
 Copy one of the templates and adjust to your needs
 :::code-group
 ``` js [src/template/dance.template] {6}

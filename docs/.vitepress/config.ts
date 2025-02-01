@@ -48,7 +48,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'What is Svelte Anywhere?', link: '/what-is-svelte-anywhere' }
+      { text: 'Reference', link: '/reference/plugin' }
     ],
     logo: '/logo.png',
 
@@ -85,7 +85,7 @@ export default defineConfig({
     //   text: 'Edit this page on GitHub'
     // },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vidschofelix/vite-plugin-svelte-anywhere' }
+      { icon: 'github', link: 'https://github.com/vidschofelix/vite-plugin-svelte-anywhere' },
     ]
   },
   vue: {

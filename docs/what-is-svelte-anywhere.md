@@ -8,3 +8,6 @@
 - **Custom Elements Made Simple**: Wrap Svelte components into reusable custom elements with just a single annotation.
 - **Dynamic & Scalable**: Enjoy hot module reloading during development and lazy loading for production.
 - **Shadow DOM Control**: Choose between open or no shadow DOM for encapsulation control.
+
+## Downsides Of This Plugin
+- No excuse to not use Svelte anymore :wink:
