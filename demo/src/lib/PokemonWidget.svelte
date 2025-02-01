@@ -1,6 +1,6 @@
 <!-- @custom-element pokemon-widget -->
 <script lang="ts">
-    import {fade, blur, fly} from 'svelte/transition';
+    import {blur} from 'svelte/transition';
 
     type Pokemon = {
         name: string;
@@ -22,13 +22,13 @@
     }
 </script>
 
-<div class="twp custom-element flex flex-col items-center p-6 rounded-lg shadow-md max-w-xs mx-auto">
-    <div class="w-20 h-20 object-contain mb-4 shadow-md rounded-lg">
+<div class="twp flex flex-col items-center p-6 rounded-lg shadow-md max-w-xs mx-auto">
+    <div class="w-20 h-20 object-contain shadow-md rounded-lg">
         {#key pokemon?.name}
             <img transition:blur
                  src={pokemon?.sprites.front_default}
                  alt={pokemon?.name}
-                 class={["w-20 h-20 object-contain mb-4 absolute"]}/>
+                 class={["w-20 h-20 object-contain absolute"]}/>
         {/key}
     </div>
 
@@ -45,11 +45,3 @@
         Get Random Pokémon
     </button>
 </div>
-
-<style>
-    .custom-element {
-        border-color: var(--vp-custom-block-details-border);
-        color: var(--vp-custom-block-details-text);
-        background-color: var(--vp-custom-block-details-bg);
-    }
-</style>
