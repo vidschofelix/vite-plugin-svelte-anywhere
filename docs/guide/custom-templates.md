@@ -8,10 +8,12 @@ By default the plugin comes with two templates:
 <<<  @/../src/templates/eager.template{js}
 :::
 
+
+## Creating your own Template
 If you want to use your own template follow these steps:
-## Create folder
+### Create folder
 For this example we will use `src/template`
-## Define templatefolder in config
+### Define templatefolder in config
 :::code-group
 ``` ts [vite.config.ts]
 export default defineConfig({
@@ -24,7 +26,7 @@ export default defineConfig({
 ```
 :::
 
-## Add your template
+### Add your template
 Copy one of the templates and adjust to your needs
 :::code-group
 ``` js [src/template/dance.template] {6}
@@ -40,11 +42,14 @@ Copy one of the templates and adjust to your needs
 ```
 :::
 
-## Use your template
+The Plugin will replace `{{CUSTOM_ELEMENT_TAG}}`, `{{SHADOW_MODE}}` and `{{SVELTE_PATH}}` according to your component 
+and annotation used.  
+
+### Use your template
 :::code-group
 ``` svelte [/src/lib/MyComponent.svelte]
 <!-- @custom-element my-component template="dance" --> // [!code ++]
 
 ```
 :::
-You can use any of templates, either your custom ones or still the provided ones.  
+You can use any of the templates, either your custom ones or still the provided ones.  

@@ -39,11 +39,11 @@ export default defineConfig({
       })
     }
   },
-  vite:{
-    server: {
-      hmr: false
-    },
-  },
+  // vite:{ //in case you have issues with the page doing a full reload while working on the demo, uncomment this
+  //   server: {
+  //     hmr: false
+  //   },
+  // },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -81,7 +81,7 @@ export default defineConfig({
       provider: 'local'
     },
     // editLink: {
-    //   pattern: 'https://github.com/vidschofelix/vite-plugin-svelte-anywhere/main/docs/:path',
+    //   pattern: 'https://github.com/vidschofelix/vite-plugin-svelte-anywhere/tree/main/docs/:path',
     //   text: 'Edit this page on GitHub'
     // },
     socialLinks: [
