@@ -13,6 +13,7 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts && mkdir -p dist/templates && cp src/templates/*.template dist/templates",
     "build-local": "tsup src/index.ts --format esm --dts && cpx src/templates/**.template dist/templates",
+    "dev": "concurrently \"npm run demo:dev\" \"npm run docs:dev\"",
     "semantic-release": "semantic-release",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
@@ -41,6 +42,7 @@
   "homepage": "https://github.com/vidschofelix/vite-plugin-svelte-anywhere#readme",
   "devDependencies": {
     "@types/node": "^22.10.10",
+    "concurrently": "^9.1.2",
     "cpx2": "^8.0.0",
     "eslint": "^8.0.0",
     "memfs": "^4.17.0",
