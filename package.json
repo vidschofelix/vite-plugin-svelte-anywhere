@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-svelte-anywhere",
   "version": "0.0.0-development",
-  "description": "Take Svelte anywhere, no matter the stack.",
+  "description": "Use Svelte components anywhere",
   "main": "dist/index.js",
   "type": "module",
   "exports": {

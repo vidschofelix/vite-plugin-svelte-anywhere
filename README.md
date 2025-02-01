@@ -1,5 +1,7 @@
+![logo](docs/public/logo.png)
+
 # Vite Plugin Svelte Anywhere
-Easily use Svelte components outside a Svelte context! 
+Use Svelte components anywhere.
 
 This Vite plugin empowers developers to define reusable custom elements directly within their Svelte components. 
 

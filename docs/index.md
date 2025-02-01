@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "Svelte Anywhere Docs"
-  tagline: Take Svelte anywhere, no matter the stack.
+  tagline: Use Svelte components anywhere.
   image:
     src: '/logo.png'
     alt: 'Svelte Anywhere Logo'
