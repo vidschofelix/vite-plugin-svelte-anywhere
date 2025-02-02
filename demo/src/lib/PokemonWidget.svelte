@@ -13,7 +13,7 @@
 
     async function fetchPokemon() {
         disableButton = true
-        const id = Math.floor(Math.random() * 898) + 1; // Random Pokémon ID
+        const id = Math.floor(Math.random() * 1024) + 1; // Random Pokémon ID
         pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
             .then((res) => {
                 disableButton = false
