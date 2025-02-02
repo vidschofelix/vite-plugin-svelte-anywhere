@@ -12,6 +12,11 @@ export default defineConfig({
   title: "Svelte Anywhere Docs",
   description: "A VitePress Site",
   head: [
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:locale', content: 'en' }],
+    ['meta', { property: 'og:title', content: 'Svelte Anywhere | Use Svelte components anywhere' }],
+    ['meta', { property: 'og:site_name', content: 'Svelte Anywhere' }],
+    ['meta', { property: 'og:url', content: 'https://vidschofelix.github.io/vite-plugin-svelte-anywhere/' }],
     ['link', { rel: 'icon', href: `${basePath}favicon.ico` }],
   ],
   transformPageData(pageData) {

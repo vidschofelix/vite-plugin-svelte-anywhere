@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Svelte Anywhere Docs"
+  name: "Svelte Anywhere"
   tagline: Use Svelte components anywhere.
   image:
     src: '/logo.png'
@@ -30,5 +30,7 @@ hero:
 #  - title: Feature C
 #    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
+
+[//]: # (# Svelte Anywhere Docs)
 
 <!--@include: ./what-is-svelte-anywhere.md -->

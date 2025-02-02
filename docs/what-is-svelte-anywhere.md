@@ -1,5 +1,3 @@
-# What is Svelte-Anywhere?
-
 **Svelte-Anywhere** is a Vite plugin that allows you to use Svelte Components **anywhere HTML is accepted**. Whether you're working on a modern web app, a legacy project, or even a CMS platform, Svelte-Anywhere makes it effortless to embed Svelte components into any environment—no rewrites, no hassle.
 
 ## Why Svelte-Anywhere?
