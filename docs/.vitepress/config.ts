@@ -5,8 +5,34 @@ import {readFile} from "node:fs/promises";
 
 
 const basePath = '/vite-plugin-svelte-anywhere/'
-// @ts-ignore
-const manifest = JSON.parse(await readFile("docs/public/demo/.vite/manifest.json", "utf8"));
+
+const headers_to_inject =  (async()=> {
+  const manifest = JSON.parse(await readFile("docs/public/demo/.vite/manifest.json", "utf8"));
+  let headers = []
+  if (process.env.NODE_ENV === 'development') {
+    headers.push(...[[
+      'script',
+      { src: 'http://localhost:5173/vite-plugin-svelte-anywhere/demo/@vite/client', type: 'module' }
+    ],
+      [
+        'script',
+        { src: 'http://localhost:5173/vite-plugin-svelte-anywhere/demo/src/main.ts', type: 'module' }
+      ]
+    ])
+  } else {
+    headers.push([
+      'script',
+      { src: `${basePath}demo/${manifest['src/main.ts']['file']}`, type: 'module' }
+    ])
+    manifest['src/main.ts']['css'].map((entry: string) => {
+      headers.push([
+        'link ',
+        { href: `${basePath}demo/${entry}`, rel: 'stylesheet' }
+      ])
+    })
+  }
+  return headers
+})()
 
 export default defineConfig({
   title: "Svelte Anywhere Docs",
@@ -18,32 +44,8 @@ export default defineConfig({
     ['meta', { property: 'og:site_name', content: 'Svelte Anywhere' }],
     ['meta', { property: 'og:url', content: 'https://vidschofelix.github.io/vite-plugin-svelte-anywhere/' }],
     ['link', { rel: 'icon', href: `${basePath}favicon.ico` }],
+    ...await headers_to_inject
   ],
-  transformPageData(pageData) {
-    pageData.frontmatter.head ??= []
-    if (process.env.NODE_ENV === 'development') {
-      pageData.frontmatter.head.push(...[[
-          'script',
-         { src: 'http://localhost:5173/@vite/client', type: 'module' }
-        ],
-        [
-          'script',
-          { src: 'http://localhost:5173/vite-plugin-svelte-anywhere/demo/src/main.ts', type: 'module' }
-        ]
-      ])
-    } else {
-      pageData.frontmatter.head.push([
-        'script',
-        { src: `${basePath}demo/${manifest['src/main.ts']['file']}`, type: 'module' }
-      ])
-      manifest['src/main.ts']['css'].map((entry) => {
-        pageData.frontmatter.head.push([
-          'link ',
-          { href: `${basePath}demo/${entry}`, rel: 'stylesheet' }
-        ])
-      })
-    }
-  },
   // vite:{ //in case you have issues with the page doing a full reload while working on the demo, uncomment this
   //   server: {
   //     hmr: false
