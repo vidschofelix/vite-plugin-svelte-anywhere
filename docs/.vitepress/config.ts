@@ -28,7 +28,7 @@ export default defineConfig({
         ],
         [
           'script',
-          { src: 'http://localhost:5173/src/main.ts', type: 'module' }
+          { src: 'http://localhost:5173/vite-plugin-svelte-anywhere/demo/src/main.ts', type: 'module' }
         ]
       ])
     } else {
