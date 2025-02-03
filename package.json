@@ -39,7 +39,7 @@
   "bugs": {
     "url": "https://github.com/vidschofelix/vite-plugin-svelte-anywhere/issues"
   },
-  "homepage": "https://svelte-anywhere.dev/",
+  "homepage": "https://svelte-anywhere.dev",
   "devDependencies": {
     "@types/node": "^22.10.10",
     "concurrently": "^9.1.2",

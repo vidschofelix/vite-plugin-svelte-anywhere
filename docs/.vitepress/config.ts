@@ -28,7 +28,7 @@ const headers_to_inject =  (async()=> {
     manifest['src/main.ts']['css'].map((entry: string) => {
       headers.push([
         'link ',
-        { href: `${demoBasePath}demo/${entry}`, rel: 'stylesheet' }
+        { href: `${demoBasePath}${entry}`, rel: 'stylesheet' }
       ])
     })
   }
