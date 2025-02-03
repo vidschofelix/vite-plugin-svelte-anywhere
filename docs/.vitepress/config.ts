@@ -4,7 +4,8 @@ import {readFile} from "node:fs/promises";
 // https://vitepress.dev/reference/site-config
 
 
-const basePath = '/vite-plugin-svelte-anywhere/'
+const basePath = ''
+const demoBasePath = `${basePath}/demo/`
 
 const headers_to_inject =  (async()=> {
   const manifest = JSON.parse(await readFile("docs/public/demo/.vite/manifest.json", "utf8"));
@@ -12,22 +13,22 @@ const headers_to_inject =  (async()=> {
   if (process.env.NODE_ENV === 'development') {
     headers.push(...[[
       'script',
-      { src: 'http://localhost:5173/vite-plugin-svelte-anywhere/demo/@vite/client', type: 'module' }
+      { src: `http://localhost:5173${demoBasePath}@vite/client`, type: 'module' }
     ],
       [
         'script',
-        { src: 'http://localhost:5173/vite-plugin-svelte-anywhere/demo/src/main.ts', type: 'module' }
+        { src: `http://localhost:5173${demoBasePath}src/main.ts`, type: 'module' }
       ]
     ])
   } else {
     headers.push([
       'script',
-      { src: `${basePath}demo/${manifest['src/main.ts']['file']}`, type: 'module' }
+      { src: `${demoBasePath}${manifest['src/main.ts']['file']}`, type: 'module' }
     ])
     manifest['src/main.ts']['css'].map((entry: string) => {
       headers.push([
         'link ',
-        { href: `${basePath}demo/${entry}`, rel: 'stylesheet' }
+        { href: `${demoBasePath}demo/${entry}`, rel: 'stylesheet' }
       ])
     })
   }

@@ -14,7 +14,7 @@ export default defineConfig({
             }
         }),
     ],
-    base: '/vite-plugin-svelte-anywhere/demo',
+    base: '/demo',
     build: {
         target: "esnext",
         manifest: true, // Generate manifest.json for production //
