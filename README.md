@@ -9,6 +9,6 @@ Once set up, simply annotate your component with a custom tag, and it’s ready 
 
 ---
 
-### [Documentation](https://vidschofelix.github.io/vite-plugin-svelte-anywhere/)
-### [Demo](https://vidschofelix.github.io/vite-plugin-svelte-anywhere/demo)
+### [Documentation](https://svelte-anywhere.dev)
+### [Demo](https://svelte-anywhere.dev/demo)
 
