@@ -44,7 +44,11 @@ export default defineConfig({
     ['meta', { property: 'og:title', content: 'Svelte Anywhere | Use Svelte components anywhere' }],
     ['meta', { property: 'og:site_name', content: 'Svelte Anywhere' }],
     ['meta', { property: 'og:url', content: 'https://vidschofelix.github.io/vite-plugin-svelte-anywhere/' }],
-    ['link', { rel: 'icon', href: `${basePath}favicon.ico` }],
+    ['link', { rel: 'shortcut icon', href: `${basePath}favicon.ico` }],
+    ['link', { rel: 'icon', type: 'image/png', href: `${basePath}favicon-96x96.png`, sizes: '96x96'}],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${basePath}favicon.svg`}],
+    ['link', { rel: 'apple-touch-icon', sizes: '96x96', href: `${basePath}apple-touch-icon.png`}],
+
     ...await headers_to_inject
   ],
   // vite:{ //in case you have issues with the page doing a full reload while working on the demo, uncomment this
@@ -94,7 +98,8 @@ export default defineConfig({
     // },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/vidschofelix/vite-plugin-svelte-anywhere' },
-    ]
+      { icon: 'npm', link: 'https://www.npmjs.com/package/vite-plugin-svelte-anywhere' },
+    ],
   },
   vue: {
     template: {
