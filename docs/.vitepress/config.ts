@@ -44,6 +44,7 @@ export default defineConfig({
     ['meta', { property: 'og:title', content: 'Svelte Anywhere | Use Svelte components anywhere' }],
     ['meta', { property: 'og:site_name', content: 'Svelte Anywhere' }],
     ['meta', { property: 'og:url', content: 'https://vidschofelix.github.io/vite-plugin-svelte-anywhere/' }],
+    ['link', { rel: 'canonical', href: 'https://svelte-anywhere.dev/' }],
     ['link', { rel: 'shortcut icon', href: `${basePath}favicon.ico` }],
     ['link', { rel: 'icon', type: 'image/png', href: `${basePath}favicon-96x96.png`, sizes: '96x96'}],
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${basePath}favicon.svg`}],
