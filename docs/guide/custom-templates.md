@@ -42,8 +42,9 @@ Copy one of the templates and adjust to your needs
 ```
 :::
 
-The Plugin will replace `{{CUSTOM_ELEMENT_TAG}}`, `{{SHADOW_MODE}}` and `{{SVELTE_PATH}}` according to your component 
-and annotation used.  
+The Plugin will replace <code v-pre>{{CUSTOM_ELEMENT_TAG}}</code>, 
+<code v-pre>{{SHADOW_MODE}}</code> and <code v-pre>{{SVELTE_PATH}}</code> 
+according to your component and annotation used.  
 
 ### Use your template
 :::code-group
