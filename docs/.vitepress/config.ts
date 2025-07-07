@@ -1,6 +1,6 @@
 import {defineConfig} from 'vitepress'
 import {readFile} from "node:fs/promises";
-
+import llmstxt from 'vitepress-plugin-llms'
 // https://vitepress.dev/reference/site-config
 
 
@@ -37,7 +37,7 @@ const headers_to_inject =  (async()=> {
 
 export default defineConfig({
   title: "Svelte Anywhere Docs",
-  description: "A VitePress Site",
+  description: "Use Svelte components anywhere",
   head: [
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'en' }],
@@ -52,11 +52,15 @@ export default defineConfig({
 
     ...await headers_to_inject
   ],
-  // vite:{ //in case you have issues with the page doing a full reload while working on the demo, uncomment this
-  //   server: {
-  //     hmr: false
-  //   },
-  // },
+  vite:{ //in case you have issues with the page doing a full reload while working on the demo, uncomment this
+    server: {
+      port: 5170,
+      hmr: true,
+    },
+    plugins: [
+      llmstxt() as any
+    ]
+  },
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -67,17 +71,17 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'What is Svelte Anywhere?',
-        link: '/what-is-svelte-anywhere'
-      },
-      {
-        text: 'Demos',
-        link: '/demo'
+        text: 'Introduction',
+        items: [
+          { text: 'What is Svelte Anywhere', link: '/what-is-svelte-anywhere'},
+          { text: 'Demos', link: '/demo'},
+        ]
       },
       {
         text: 'Guides',
         items: [
           { text: 'Quickstart', link: '/guide/quickstart' },
+          { text: 'FAQ', link: '/guide/faq' },
           { text: 'Backend Integration', link: '/guide/backend-integration'},
           { text: 'Using Custom Templates', link: '/guide/custom-templates' }
         ]
@@ -101,6 +105,10 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/vidschofelix/vite-plugin-svelte-anywhere' },
       { icon: 'npm', link: 'https://www.npmjs.com/package/vite-plugin-svelte-anywhere' },
     ],
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2024-present'
+    },
   },
   vue: {
     template: {

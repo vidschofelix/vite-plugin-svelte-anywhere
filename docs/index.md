@@ -22,15 +22,15 @@ hero:
       text: GitHub
       link: https://github.com/vidschofelix/vite-plugin-svelte-anywhere
 
-#features:
-#  - title: Feature A
-#    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#  - title: Feature B
-#    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#  - title: Feature C
-#    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+features:
+  - title: ⚡ Vite powered
+    details: Use Svelte components in legacy or CMS-based projects
+  - title: 🔥 HMR
+    details: Hot module reloading in dev
+  - title: 💤 Lazy
+    details: Lazy loading and optimized bundles for prod
+  - title: 🧩 Themes
+    details: Easily customizable templates
 ---
 
 [//]: # (# Svelte Anywhere Docs)
-
-<!--@include: ./what-is-svelte-anywhere.md -->
