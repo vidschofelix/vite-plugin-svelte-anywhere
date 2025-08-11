@@ -1,7 +1,8 @@
 <svelte:options customElement={{ tag: '{{CUSTOM_ELEMENT_TAG}}', shadow: '{{SHADOW_MODE}}' }} />
 
 <script>
-    let { ...props } = $props();
+    // svelte-ignore custom_element_props_identifier
+    let props = $props();
     import Component from '{{SVELTE_PATH}}';
 </script>
 

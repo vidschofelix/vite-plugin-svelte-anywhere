@@ -8,6 +8,10 @@ By default the plugin comes with two templates:
 <<<  @/../src/templates/eager.template{js}
 :::
 
+::: info
+We suppress Sveltes [custom_element_props_identifier](https://svelte.dev/docs/svelte/compiler-warnings#custom_element_props_identifier) warning, because the generated custom component can't know wich props you will pass or expect in your component. By default all props will be passed down.
+:::
+
 
 ## Creating your own Template
 If you want to use your own template follow these steps:
@@ -33,6 +37,7 @@ Copy one of the templates and adjust to your needs
 <svelte:options customElement={{ tag: '{{CUSTOM_ELEMENT_TAG}}', shadow: '{{SHADOW_MODE}}' }} />
 
 <script>
+    // svelte-ignore custom_element_props_identifier
     let { ...props } = $props();
     import Component from '{{SVELTE_PATH}}';
     console.log('Let's dance!);
