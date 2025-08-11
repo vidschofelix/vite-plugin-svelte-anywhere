@@ -26,10 +26,10 @@ features:
   - title: ⚡ Vite powered
     details: Use Svelte components in legacy or CMS-based projects
   - title: 🔥 HMR
-    details: Hot module reloading in dev
+    details: Hot module reloading in development
   - title: 💤 Lazy
-    details: Lazy loading and optimized bundles for prod
-  - title: 🧩 Themes
+    details: Lazy loading and bundle splitting for prod
+  - title: 🧩 Templating
     details: Easily customizable templates
 ---
 

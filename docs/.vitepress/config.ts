@@ -1,37 +1,46 @@
-import {defineConfig} from 'vitepress'
+import {defineConfig, HeadConfig} from 'vitepress'
 import {readFile} from "node:fs/promises";
 import llmstxt from 'vitepress-plugin-llms'
+
 // https://vitepress.dev/reference/site-config
 
-
 const basePath = ''
-const demoBasePath = `${basePath}/demo/`
+const demoBasePath = `${basePath}/demo`
 
-const headers_to_inject =  (async()=> {
-  const manifest = JSON.parse(await readFile("docs/public/demo/.vite/manifest.json", "utf8"));
-  let headers = []
-  if (process.env.NODE_ENV === 'development') {
-    headers.push(...[[
-      'script',
-      { src: `http://localhost:5173${demoBasePath}@vite/client`, type: 'module' }
-    ],
-      [
-        'script',
-        { src: `http://localhost:5173${demoBasePath}src/main.ts`, type: 'module' }
-      ]
-    ])
-  } else {
+const headers_to_inject: Promise<HeadConfig[]> = (async () => {
+  const headers: HeadConfig[] = []
+  const isDev = process.env.NODE_ENV !== 'production'
+
+  if (isDev) {
+    // Dev: HMR client + your demo entry live under the demo base
+    headers.push(['script', { src: `http://localhost:5173${demoBasePath}/@vite/client`, type: 'module' }])
+    headers.push(['script', { src: `http://localhost:5173${demoBasePath}/src/main.ts`, type: 'module' }])
+    return headers
+  }
+
+  // Prod: read the demo’s manifest and inject built assets
+  try {
+    const manifest = JSON.parse(
+      await readFile('docs/public/demo/.vite/manifest.json', 'utf8')
+    )
+
+    const entry = manifest['src/main.ts']
+    if (entry?.file) {
+      headers.push(['script', { src: `${demoBasePath}/${entry.file}`, type: 'module' }])
+    }
+
+    entry?.css?.forEach((href: string) => {
+      headers.push(['link', { rel: 'stylesheet', href: `${demoBasePath}/${href}` }]) // <-- 'link' (no space)
+    })
+  } catch {
+    // Don’t crash docs dev if the demo hasn’t been built yet
     headers.push([
       'script',
-      { src: `${demoBasePath}${manifest['src/main.ts']['file']}`, type: 'module' }
+      {},
+      `console.warn('[docs] demo manifest not found; build the demo to inject prod assets.')`
     ])
-    manifest['src/main.ts']['css'].map((entry: string) => {
-      headers.push([
-        'link ',
-        { href: `${demoBasePath}${entry}`, rel: 'stylesheet' }
-      ])
-    })
   }
+
   return headers
 })()
 
