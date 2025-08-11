@@ -3,7 +3,6 @@
 # Vite Plugin: Svelte Anywhere
 
 [![NPM Version](https://img.shields.io/npm/v/vite-plugin-svelte-anywhere)](https://www.npmjs.com/package/vite-plugin-svelte-anywhere)
-[![Bundle Size](https://img.shields.io/bundlephobia/min/vite-plugin-svelte-anywhere)](https://bundlephobia.com/package/vite-plugin-svelte-anywhere)
 [![NPM Downloads](https://img.shields.io/npm/d18m/vite-plugin-svelte-anywhere)](https://img.shields.io/npm/d18m/vite-plugin-svelte-anywhere)
 [![Build Status](https://github.com/vidschofelix/vite-plugin-svelte-anywhere/actions/workflows/release.yml/badge.svg)](https://github.com/vidschofelix/vite-plugin-svelte-anywhere/actions)
 [![License](https://img.shields.io/github/license/vidschofelix/vite-plugin-svelte-anywhere)](https://github.com/vidschofelix/vite-plugin-svelte-anywhere/blob/main/LICENSE)
