@@ -12,14 +12,13 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts && mkdir -p dist/templates && cp src/templates/*.template dist/templates",
-    "build-local": "tsup src/index.ts --format esm --dts && cpx src/templates/**.template dist/templates",
     "dev": "concurrently \"npm run demo:dev\" \"npm run docs:dev\"",
     "semantic-release": "semantic-release",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "demo:dev": "cd demo && npm run dev",
-    "demo:build": "cd demo && npm run build",
+    "demo:dev": "npm run dev -w demo",
+    "demo:build": "npm run build -w demo",
     "test": "vitest"
   },
   "keywords": [
