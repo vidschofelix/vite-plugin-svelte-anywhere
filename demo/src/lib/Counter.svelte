@@ -1,7 +1,6 @@
 <!-- @custom-element x-counter -->
 <script lang="ts">
     let count: number = $state(0)
-    let props = $props();
     const increment = () => {
         count += 1
     }

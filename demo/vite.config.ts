@@ -14,6 +14,7 @@ export default defineConfig({
             }
         }),
     ],
+    base: '/demo',
     build: {
         target: "esnext",
         manifest: true, // Generate manifest.json for production //

@@ -16,12 +16,16 @@ class NumberTranslator {
         {'en': 'ten', 'es': 'diez'}
     ]
 
-    setLanguage(language: LanguageType) {
-        this.language = language
+    getLanguage() {
+        return this.language;
     }
 
     translate(number: number) {
         return this.labels[number][this.language]
+    }
+
+    toggleLanguage() {
+        this.language = (this.language == 'en') ? 'es' : 'en';
     }
 }
 

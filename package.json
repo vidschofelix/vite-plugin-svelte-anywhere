@@ -12,13 +12,13 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts && mkdir -p dist/templates && cp src/templates/*.template dist/templates",
-    "build-local": "tsup src/index.ts --format esm --dts && cpx src/templates/**.template dist/templates",
+    "dev": "concurrently \"npm run demo:dev\" \"npm run docs:dev\"",
     "semantic-release": "semantic-release",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "demo:dev": "cd demo && npm run dev",
-    "demo:build": "cd demo && npm run build",
+    "demo:dev": "npm run dev -w demo",
+    "demo:build": "npm run build -w demo",
     "test": "vitest"
   },
   "keywords": [
@@ -38,9 +38,10 @@
   "bugs": {
     "url": "https://github.com/vidschofelix/vite-plugin-svelte-anywhere/issues"
   },
-  "homepage": "https://github.com/vidschofelix/vite-plugin-svelte-anywhere#readme",
+  "homepage": "https://svelte-anywhere.dev",
   "devDependencies": {
     "@types/node": "^26.5.1",
+    "concurrently": "^9.1.2",
     "cpx2": "^9.0.3",
     "eslint": "^10.10.0",
     "memfs": "^4.77.0",
@@ -48,13 +49,14 @@
     "svelte": "^5.57.0",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vite": "^6.4.3",
+    "vite": "^7.1.1",
     "vitepress": "^1.6.4",
+    "vitepress-plugin-llms": "^1.7.2",
     "vitest": "^5.0.0"
   },
   "peerDependencies": {
     "svelte": "^5.0.0",
-    "vite": "^6.0.0"
+    "vite": "^6.0.0 || ^7.0.0 || ^8.0.0"
   },
   "files": [
     "dist",

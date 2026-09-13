@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Svelte Anywhere Docs"
+  name: "Svelte Anywhere"
   tagline: Use Svelte components anywhere.
   image:
     src: '/logo.png'
@@ -22,13 +22,15 @@ hero:
       text: GitHub
       link: https://github.com/vidschofelix/vite-plugin-svelte-anywhere
 
-#features:
-#  - title: Feature A
-#    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#  - title: Feature B
-#    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-#  - title: Feature C
-#    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+features:
+  - title: ⚡ Vite powered
+    details: Use Svelte components in legacy or CMS-based projects
+  - title: 🔥 HMR
+    details: Hot module reloading in development
+  - title: 💤 Lazy
+    details: Lazy loading and bundle splitting for prod
+  - title: 🧩 Templating
+    details: Easily customizable templates
 ---
 
-<!--@include: ./what-is-svelte-anywhere.md -->
+[//]: # (# Svelte Anywhere Docs)
