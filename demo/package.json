@@ -10,15 +10,15 @@
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^5.0.3",
-    "@tsconfig/svelte": "^5.0.4",
-    "autoprefixer": "^10.4.20",
-    "svelte": "^5.15.0",
-    "svelte-check": "^4.1.1",
-    "tailwindcss": "^3.4.17",
-    "tailwindcss-scoped-preflight": "^3.4.10",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.5",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@tsconfig/svelte": "^5.0.8",
+    "autoprefixer": "^10.6.0",
+    "svelte": "^5.57.0",
+    "svelte-check": "^4.7.6",
+    "tailwindcss": "^3.4.19",
+    "tailwindcss-scoped-preflight": "^3.5.9",
+    "typescript": "~5.9.3",
+    "vite": "^6.4.3",
     "vite-plugin-svelte-anywhere": "file:../src"
   }
 }
